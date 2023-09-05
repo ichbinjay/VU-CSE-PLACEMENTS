@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="homepage.css">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div id="preloader"></div>
+    <div class="header">
+        <div id="logodiv" style="float: right; text-align: right;">
+            <img id="logo" src="images/logo-white.png" alt="logo">
+        </div>
+        <div class="navbar">
+            <div class="container nav-container">
+                <input class="checkbox" type="checkbox" name="" id="chkbaux" />
+                <script>
+                    var chkbaux = document.getElementById("chkbaux");
+                    chkbaux.addEventListener("click", function() {
+                        console.log(chkbaux.checked);
+                        if(chkbaux.checked == true) {
+                            document.getElementById("logodiv").style.display = "none";
+                        } else {
+                            document.getElementById("logodiv").style.display = "block";
+                        }
+                    });
+                </script>
+                <div class="hamburger-lines">
+                    <span class="line line1"></span>
+                    <span class="line line2"></span>
+                    <span class="line line3"></span>
+                </div>
+                <div class="menu-items">
+                    <li><a title="Go to homepage" href="index.html"> Home </a></li>
+                    <li> <a title="Check your placements" href="placements.html"> Placements </a></li>
+                    <li><a title="View Companies hiring from our Univeristy" href="companies.html"> Companies </a></li>
+                    <li><a title="View packages being offered to our students" href="packages.html"> Packages </a></li>
+                </div>
+            </div>
+        </div>
+
+        <!--Content before waves-->
+        <div class="inner-header flex">
+
+
+            <div class="container" style="margin: auto;text-align: center;">
+                <x> COMPUTER SCIENCE AND ENGINEERING </x><br>
+                <y> PLACEMENT DETAILS </y><br>
+                <div name="dropdownbox">
+                </div>
+            </div>
+        </div>
+
+        <!--Waves Container-->
+        <div>
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave"
+                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                </g>
+            </svg>
+        </div>
+        <!--Waves end-->
+
+    </div>
+    <!--Header ends-->
+
+    <!--Content starts-->
+    <div class="content flex">
+
+    </div>
+    <!--Content ends-->
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-analytics.js";
+        import { getDatabase, get, ref, set, child } from "https://www.gstatic.com/firebasejs/9.8.3/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyCjLclldlhmBPEP1n_PAYQ5XXgmx-kPftw",
+            authDomain: "test-af20e.firebaseapp.com",
+            databaseURL: "https://test-af20e-default-rtdb.firebaseio.com",
+            projectId: "test-af20e",
+            storageBucket: "test-af20e.appspot.com",
+            messagingSenderId: "356110877162",
+            appId: "1:356110877162:web:c0c84ef170cbd174037293",
+            measurementId: "G-SS39TC8BNP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+
+        const db = getDatabase();
+        const dbref = ref(db);
+
+
+        //ISTG I HAD AN EXESTENTIAL CRISIS WRITNG THESE BELOW LINES OF CODE WHERE I HAD TO QUESTION MY CAREER CHOICE LIKE NEVER BEFORE. WHY CANT JS BE SYNCHRONOUS OMG
+        window.onload = function () {
+            //this function is called when the page is loaded and calls the function to get the names of all the companies
+            generateDropdown();
+            //functions, functions, functions... I dont like them, I avoid. but effiecient programs require fucntions, so I cant avoid :(
+        };
+        function generateDropdown(companies) {
+            //this function generates the dropdown box with the names of all the companies
+            var sel = document.createElement('select');
+            sel.name = 'registernumber';
+            sel.id = 'registernumber';
+
+            var options_str = '<option value="">Select package range</option>';
+            options_str += '<option value="0-5">' + "₹01-05 LPA" + '</option>';
+            options_str += '<option value="5-10">' + "₹05-10 LPA" + '</option>';
+            options_str += '<option value="10-15">' + "₹10-15 LPA" + '</option>';
+            options_str += '<option value="15-20">' + "₹15-20 LPA" + '</option>';
+            options_str += '<option value="20-100">' + "₹20+ LPA" + '</option>';
+            
+            sel.innerHTML = options_str;
+            SelectionFinder(sel);
+        }
+        function SelectionFinder(sel) {
+            //this function identifies which company is selected and then calls the function to get the details of that company
+            document.getElementsByName("dropdownbox")[0].appendChild(sel);
+            const selectElement = document.querySelector("select");
+            selectElement.addEventListener('change', (event) => {
+                var selectedValue = event.target.value;
+                var arr = selectedValue.trim().split("-");
+                var lower = arr[0];
+                var upper = arr[1];
+                noOfPlacmentsCalculator(lower, upper);
+
+            });
+        }
+        function noOfPlacmentsCalculator(lower, upper) {
+            document.getElementById("preloader").style.display = "inline";
+            //this function calculates number of placements within given package range
+            var lower = parseInt(lower), upper = parseInt(upper), noOfPlacements=0;
+            get(child(dbref, "RegisterNos")).then((snapshot) => {
+                var data = snapshot.val();
+                var JSONTreeL1 = Object.values(data);
+                for (var i = 0; i < Object.values(data).length; i++) {
+                    var JSONTreeL2 = Object.values(JSONTreeL1[i]);
+                    for (var j = 0; j < JSONTreeL2.length; j++) {
+                        if (!isNaN(JSONTreeL2[j]) && JSONTreeL2[j] >= lower && JSONTreeL2[j] <= upper) {
+                            noOfPlacements++;
+                        }
+                    }
+                }
+                printNoOfPlacements(lower, upper, noOfPlacements);
+            });
+        }
+        function printNoOfPlacements(lower, upper, noOfPlacments){
+            //this function prints the number of placements of a company
+            document.write("<div id='topribbion'>");
+            document.write("<a id = 'ctag' title='View packages being offered to our students' href='packages.html'> Packages </a>");
+            document.write("<a id = 'btag' title='View Companies hiring from our Univeristy' href='companies.html'> Companies </a>");
+            document.write("<a id = 'atag' title='Check your placements' href='placements.html'> Placements </a>");
+            document.write("</div");
+
+            document.write("<div><center>");
+            document.write("<br>");
+            document.write("<h1>Welcome to placement details</h1>");
+            if(upper == 100){
+                document.write("<h2>Number of placements in package range ₹" + lower + "+ LPA is "+ "</h2>");
+            }
+            else{
+                document.write("<h2>Number of placements in package range ₹" + lower + "-" + upper + " LPA is " + "</h2>");
+            }
+            document.write('<g id="number" style="font-size:12vh;">' + noOfPlacments + '</g>');
+            document.getElementById("number").style.color = "white";
+
+            document.write("<div id='refresh'>");
+            document.write("<button onclick='window.location.reload()' id='backbutton'><b>Back</b></button>");
+            document.write("</div>");
+
+            document.write("</center></div>");
+            //
+            let padding = "1vh";
+            document.getElementById("topribbion").style.width = "100%";
+            document.getElementById("topribbion").style.height = "auto";
+            document.getElementById("topribbion").style.float = "top";
+            document.getElementById("topribbion").style.textAlign = "right";
+            document.getElementById("topribbion").style.fontFamily = "Roboto, sans-serif";
+            document.getElementById("topribbion").style.fontSize = "2vh";
+            document.getElementById("topribbion").style.fontWeight = "bold";
+            document.getElementById("atag").style.paddingTop = padding;
+            document.getElementById("atag").style.paddingRight = padding;
+            document.getElementById("btag").style.paddingRight = padding;
+            document.getElementById("btag").style.paddingRight = padding;
+            document.getElementById("ctag").style.paddingRight = padding;
+            document.querySelectorAll("a").forEach((a) => {
+                a.style.color = "white";
+                a.style.textDecoration = "none";
+            });
+
+            document.body.style.background = "#437fc6";
+
+            document.querySelectorAll("h1").forEach((h1) => {
+                h1.style.color = "white";
+                h1.style.fontFamily = "Roboto, sans-serif";
+                h1.style.fontSize = "5vh";
+                h1.style.fontWeight = "bold";
+            });
+            document.querySelectorAll("h2").forEach((h2) => {
+                h2.style.color = "white";
+                h2.style.fontFamily = "Roboto, sans-serif";
+                h2.style.fontSize = "3vh";
+            });
+            
+            let bgcolor = "#123b68";
+            
+            document.getElementById("backbutton").style.backgroundColor = bgcolor;
+            document.getElementById("backbutton").style.color = "white";
+            document.getElementById("backbutton").style.padding = "1vh";
+            document.getElementById("backbutton").style.margin = "10px";
+            document.getElementById("backbutton").style.borderRadius = "5px";
+            document.getElementById("backbutton").style.textAlign = "center";
+            document.getElementById("backbutton").style.fontSize = "2.6vh";
+            document.getElementById("backbutton").style.borderColor = bgcolor;
+            document.getElementById("backbutton").style.borderWidth = "0.5vh";
+            document.getElementById("backbutton").style.fontFamily = "Roboto, sans-serif";
+        }
+    </script>
+</body>
+
+</html>

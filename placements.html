@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="homepage.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="header">
+        <div id="logodiv" style="float: right; text-align: right;">
+            <img id="logo" src="images/logo-white.png" alt="logo">
+        </div>
+        <div class="navbar">
+            <div class="container nav-container">
+                <input class="checkbox" type="checkbox" name="" id="chkbaux" />
+                <script>
+                    var chkbaux = document.getElementById("chkbaux");
+                    chkbaux.addEventListener("click", function() {
+                        console.log(chkbaux.checked);
+                        if(chkbaux.checked == true) {
+                            document.getElementById("logodiv").style.display = "none";
+                        } else {
+                            document.getElementById("logodiv").style.display = "block";
+                        }
+                    });
+                </script>
+                <div class="hamburger-lines">
+                    <span class="line line1"></span>
+                    <span class="line line2"></span>
+                    <span class="line line3"></span>
+                </div>
+                <div class="menu-items">
+                    <li><a title="Go to homepage" href="index.html"> Home </a></li>
+                    <li> <a title="Check your placements" href="placements.html"> Placements </a></li>
+                    <li><a title="View Companies hiring from our Univeristy" href="companies.html"> Companies </a></li>
+                    <li><a title="View packages being offered to our students" href="packages.html"> Packages </a></li>
+                </div>
+            </div>
+        </div>
+
+        <!--Content before waves-->
+        <div class="inner-header flex">
+
+
+            <div class="container" style="margin: auto;text-align: center;">
+                <x> COMPUTER SCIENCE AND ENGINEERING </x><br>
+                <y> PLACEMENT DETAILS </y><br><br>
+                <button id="butt1">View students by number of Placments</button>
+                <br><br>
+                <button id="butt2">View placements by register number</button>
+            </div>
+        </div>
+
+        <!--Waves Container-->
+        <div>
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave"
+                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                </g>
+            </svg>
+        </div>
+        <!--Waves end-->
+
+    </div>
+    <!--Header ends-->
+
+    <!--Content starts-->
+    <div class="content flex">
+
+    </div>
+    <!--Content ends-->
+
+    <script type="module">
+        document.getElementById("butt1").addEventListener("click", function () {
+            window.location.href = "plbnp.html";
+        });
+        document.getElementById("butt2").addEventListener("click", function () {
+            window.location.href = "plbrn.html";
+        });
+    </script>
+</body>
+
+</html>
